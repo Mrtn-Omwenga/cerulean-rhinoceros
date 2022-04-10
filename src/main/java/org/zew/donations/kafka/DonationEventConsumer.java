@@ -16,7 +16,5 @@ public class DonationEventConsumer {
     void buildPipeline(StreamsBuilder streamsBuilder) {
         KStream<String, String> messageStream = streamsBuilder
                 .stream("input-topic", Consumed.with(STRING_SERDE, STRING_SERDE));
-
-        messageStream.
     }
 }
