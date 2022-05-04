@@ -13,9 +13,4 @@ public class DonationsMicroserviceApplication {
 		SpringApplication.run(DonationsMicroserviceApplication.class, args);
 	}
 
-	@GetMapping(value="/")
-	public String getMethodName() {
-		return "Teste";
-	}
-
 }
