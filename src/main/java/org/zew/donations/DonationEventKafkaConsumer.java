@@ -27,7 +27,7 @@ public class DonationEventKafkaConsumer {
             topicSuffixingStrategy = TopicSuffixingStrategy.SUFFIX_WITH_INDEX_VALUE,
             dltStrategy = DltStrategy.FAIL_ON_ERROR)
     @KafkaListener(
-            topics = "#{'${org.zew.kafka.topic.missions}'}",
+            topics = "#{'${org.zew.kafka.topic.donations}'}",
             groupId = "#{'${org.zew.kafka.consumer.group}'}",
             containerFactory = "kafkaListenerContainerFactory")
     public void listen(@Payload DonationDto donation) {
