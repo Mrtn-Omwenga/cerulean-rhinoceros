@@ -8,10 +8,10 @@ import org.springframework.kafka.retrytopic.DltStrategy;
 import org.springframework.kafka.retrytopic.TopicSuffixingStrategy;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.retry.annotation.Backoff;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 @Slf4j
-@Component
+@Service
 public class DonationEventKafkaConsumer {
     private DonationPersistenceService donationPersistenceService;
 
