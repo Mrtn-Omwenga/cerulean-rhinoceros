@@ -58,6 +58,13 @@ public class DonationsMicroserviceApplication {
 	}
 
 	@Bean
+	public ConcurrentKafkaListenerContainerFactory<String, String> kafkaListenerContainerFactory() {
+		ConcurrentKafkaListenerContainerFactory<String, String> factory = new ConcurrentKafkaListenerContainerFactory<>();
+		factory.setConsumerFactory(consumerFactory());
+		return factory;
+	}
+
+	@Bean
 	public ConsumerFactory<String, String> consumerFactory() {
 		Map<String, Object> props = new HashMap<>();
 		props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, String.format("%s:%s", env.getProperty("org.zew.kafka.host"), env.getProperty("org.zew.kafka.port")));
@@ -68,13 +75,6 @@ public class DonationsMicroserviceApplication {
 		props.put(ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, env.getProperty("org.zew.kafka.autocommit"));
 		props.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, env.getProperty("org.zew.kafka.offset"));
 		return new DefaultKafkaConsumerFactory<>(props);
-	}
-
-	@Bean
-	public ConcurrentKafkaListenerContainerFactory<String, String> kafkaListenerContainerFactory() {
-		ConcurrentKafkaListenerContainerFactory<String, String> factory = new ConcurrentKafkaListenerContainerFactory<>();
-		factory.setConsumerFactory(consumerFactory());
-		return factory;
 	}
 
 }
