@@ -18,7 +18,7 @@ public class DonationDto {
     private String ownerId;
     private String crmOwnerId;
     private String source;
-    private MonetaryAmount amount;
+    private MonetaryAmount totalAmount;
     private MonetaryAmount originalAmount;
     private BigDecimal currencyConversionRate;
     private MonetaryAmount overheadsDistribution;
