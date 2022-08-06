@@ -1,0 +1,11 @@
+org:
+  zew:
+    kafka:
+      consumer:
+        group: consumerGroup1
+      topic:
+        donations: embedded-test-topic
+      max-poll: 1
+      offset: earliest
+      autocommit: false
+      bootstrap-servers: localhost:9092
