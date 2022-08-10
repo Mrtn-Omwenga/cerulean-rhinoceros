@@ -10,8 +10,9 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.test.context.EmbeddedKafka;
 import org.springframework.test.annotation.DirtiesContext;
-import org.zew.donations.model.DonationDto;
+import org.zew.donations.dto.DonationDto;
 import org.zew.donations.service.DonationService;
+import software.amazon.qldb.QldbDriver;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.verify;
@@ -36,6 +37,9 @@ public class KafkaDonationListenerTest {
     @Value("${org.zew.kafka.topic.donations}")
     private String topic;
 
+    @MockBean
+    private QldbDriver qldbDriver;
+
     @Test
     public void givenEmbeddedKafkaBroker_whenSendingWithATestDonation_thenMessageReceived() throws Exception {
         template.send(topic, getDefaultMessage());
@@ -43,9 +47,9 @@ public class KafkaDonationListenerTest {
         Thread.sleep(5_000);
 
         verify(donationService).saveDonation(donationDtoCaptor.capture());
-        var donationDto = donationDtoCaptor.getValue();
-        assertEquals("PAYME_visa", donationDto.getSource());
-        assertEquals("u102john2021", donationDto.getOwnerId());
+        var donation = donationDtoCaptor.getValue();
+        assertEquals("PAYME_visa", donation.getSource());
+        assertEquals("u102john2021", donation.getOwnerId());
     }
 
     private String getDefaultMessage() {

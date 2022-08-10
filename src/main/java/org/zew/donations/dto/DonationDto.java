@@ -1,6 +1,10 @@
-package org.zew.donations.model;
+package org.zew.donations.dto;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import org.zew.donations.model.Amount;
 
 import java.util.List;
 
@@ -16,37 +20,25 @@ public class DonationDto {
     private String source;
     private double totalAmount;
     private String currency;
+    private double originalAmount;
+    private String originalCurrency;
+    private double currencyConversion;
     private Distribution distribution;
 
-    @Data
-    @AllArgsConstructor
     @NoArgsConstructor
-    @Builder
+    @AllArgsConstructor
+    @Getter
     public static class Distribution {
-
         private Amount overheads;
         private Amount development;
         private Amount fees;
         private List<Mission> missions;
-
     }
 
-    @Data
-    @AllArgsConstructor
     @NoArgsConstructor
-    @Builder
-    public static class Amount {
-        private double amount;
-        private String currency;
-    }
-
-    @Data
     @AllArgsConstructor
-    @NoArgsConstructor
-    @Builder
-    public static class Mission {
+    @Getter
+    public static class Mission extends Amount {
         private String missionId;
-        private double amount;
-        private String currency;
     }
 }

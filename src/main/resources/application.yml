@@ -1,3 +1,6 @@
+spring:
+  profiles.active: local
+
 org:
   zew:
     kafka:
@@ -9,3 +12,5 @@ org:
       offset: earliest
       autocommit: false
       bootstrap-servers: localhost:9092
+    qldb:
+      ledger: prodLedger

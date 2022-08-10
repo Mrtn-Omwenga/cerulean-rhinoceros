@@ -1,5 +1,6 @@
 package org.zew.donations.messaging;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
@@ -9,7 +10,7 @@ import org.springframework.kafka.retrytopic.TopicSuffixingStrategy;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.retry.annotation.Backoff;
 import org.springframework.stereotype.Component;
-import org.zew.donations.model.DonationDto;
+import org.zew.donations.dto.DonationDto;
 import org.zew.donations.service.DonationService;
 
 @Slf4j
@@ -18,6 +19,9 @@ public class KafkaDonationConsumer {
 
     @Autowired
     private DonationService donationService;
+
+    @Autowired
+    private ObjectMapper objectMapper;
 
     @RetryableTopic(
             attempts = "4",
@@ -29,9 +33,9 @@ public class KafkaDonationConsumer {
             topics = "${org.zew.kafka.topic.donations}",
             groupId = "${org.zew.kafka.consumer.group}",
             containerFactory = "kafkaListenerContainerFactory")
-    public void listener(@Payload DonationDto donation) {
-        log.info("Received donation {}", donation);
-        donationService.saveDonation(donation);
+    public void listener(@Payload DonationDto donationDto) {
+        log.info("Received donation {}", donationDto);
+        donationService.saveDonation(donationDto);
     }
 
 }

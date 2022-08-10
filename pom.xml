@@ -17,6 +17,8 @@
 
 	<properties>
 		<java.version>17</java.version>
+		<aws.qldb.driver.version>2.3.1</aws.qldb.driver.version>
+		<aws.sdk.version>1.12.272</aws.sdk.version>
 	</properties>
 
 	<dependencies>
@@ -35,10 +37,45 @@
 			<artifactId>spring-kafka</artifactId>
 		</dependency>
 		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-validation</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>software.amazon.qldb</groupId>
+			<artifactId>amazon-qldb-driver-java</artifactId>
+			<version>${aws.qldb.driver.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.amazonaws</groupId>
+			<artifactId>aws-java-sdk-qldb</artifactId>
+			<version>${aws.sdk.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.amazon.ion</groupId>
+			<artifactId>ion-java</artifactId>
+			<version>1.9.4</version>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.dataformat</groupId>
+			<artifactId>jackson-dataformat-ion</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+		</dependency>
+<!--		<dependency>-->
+<!--			<groupId>org.javamoney</groupId>-->
+<!--			<artifactId>moneta</artifactId>-->
+<!--			<version>1.4.2</version>-->
+<!--			<type>pom</type>-->
+<!--		</dependency>-->
+
+		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
 			<optional>true</optional>
 		</dependency>
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
