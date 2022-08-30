@@ -44,7 +44,7 @@ public class KafkaDonationListenerTest {
     public void givenEmbeddedKafkaBroker_whenSendingWithATestDonation_thenMessageReceived() throws Exception {
         template.send(topic, getDefaultMessage());
 
-        Thread.sleep(5_000);
+        Thread.sleep(10_000);
 
         verify(donationService).saveDonation(donationDtoCaptor.capture());
         var donation = donationDtoCaptor.getValue();
