@@ -1,0 +1,16 @@
+spring:
+  profiles.active: local
+
+org:
+  zew:
+    kafka:
+      consumer:
+        group: consumerGroup1
+      topic:
+        donations: donations
+      max-poll: 1
+      offset: earliest
+      autocommit: false
+      bootstrap-servers: localhost:9092
+    qldb:
+      ledger: prodLedger

@@ -1,0 +1,4 @@
+org:
+  zew:
+    qldb:
+      ledger: testLedger
