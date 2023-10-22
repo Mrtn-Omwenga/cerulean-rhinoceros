@@ -10,6 +10,17 @@ import org.springframework.test.util.ReflectionTestUtils;
 import org.zew.donations.model.Revenue;
 import org.zew.donations.repository.RevenueRepository;
 
+import com.fasterxml.jackson.core.exc.StreamReadException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.DatabindException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -50,7 +61,7 @@ public class RevenueServiceImplTest {
     }
 
     @Test
-    public void findById_Success() {
+    public void findById_Success() throws StreamReadException, DatabindException, IOException {
         // Arrange
         var id = UUID.randomUUID().toString();
         var revenue = createRevenue().setRevenueId(id);
@@ -65,7 +76,7 @@ public class RevenueServiceImplTest {
     }
 
     @Test
-    public void createRevenue_ValidRevenue_Success() {
+    public void createRevenue_ValidRevenue_Success() throws StreamReadException, DatabindException, IOException {
         // Arrange
         var revenue = createRevenue();
 
@@ -78,7 +89,7 @@ public class RevenueServiceImplTest {
     }
 
     @Test
-    public void createRevenue_AlreadyExistentRevenue_ThrowException() {
+    public void createRevenue_AlreadyExistentRevenue_ThrowException() throws StreamReadException, DatabindException, IOException {
         // Arrange
         var revenue = createRevenue();
         when(revenueRepository.existsById(revenue.getRevenueId())).thenReturn(true);
@@ -91,9 +102,25 @@ public class RevenueServiceImplTest {
         verifyNoMoreInteractions(revenueRepository);
         assertEquals("Revenue already exists", thrown.getMessage());
     }
-
-    private Revenue createRevenue() {
+    /*
+    private Revenue createRevenue() throws StreamReadException, DatabindException, IOException {
         // You can fill in the details for creating a Revenue object here.
-        return new Revenue();
+        //return new Revenue();
+        ObjectMapper objectMapper = new ObjectMapper();
+        
+        InputStream inputStream = getClass().getResourceAsStream("/revenues.json");
+        String json = new String(inputStream.readAllBytes(), StandardCharsets.UTF_8);
+        System.out.println(json);
+        List<Revenue> revenues = objectMapper.readValue(inputStream, new TypeReference<List<Revenue>>() {});
+        return revenues.get(0);
+    }*/
+    private Revenue createRevenue() throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        InputStream inputStream = getClass().getResourceAsStream("/revenues.json");
+        BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+        List<Revenue> revenues = objectMapper.readValue(reader, new TypeReference<List<Revenue>>() {});
+        return revenues.get(0);
     }
+
+    
 }
