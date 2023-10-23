@@ -37,8 +37,19 @@ public class RevenueServiceImplTest {
     @Mock
     private RevenueRepository revenueRepository;
 
+    private List<Revenue> revenues;
+
+
     @BeforeEach
-    public void setUp() {
+    public void setUp() throws StreamReadException, DatabindException, IOException {
+        
+        // Load the revenues from the revenues.json file
+        ObjectMapper objectMapper = new ObjectMapper();
+        InputStream inputStream = getClass().getResourceAsStream("/revenues.json");
+        BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+        revenues = objectMapper.readValue(reader, new TypeReference<List<Revenue>>() {});
+
+
         lenient().when(revenueRepository.save(any(Revenue.class))).then(answer -> {
             var revenue = (Revenue) answer.getArguments()[0];
             ReflectionTestUtils.setField(revenue, "revenueId", UUID.randomUUID().toString());
@@ -104,11 +115,20 @@ public class RevenueServiceImplTest {
     }
 
     private Revenue createRevenue() throws IOException {
-        ObjectMapper objectMapper = new ObjectMapper();
-        InputStream inputStream = getClass().getResourceAsStream("/revenues.json");
-        BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
-        List<Revenue> revenues = objectMapper.readValue(reader, new TypeReference<List<Revenue>>() {});
         return revenues.get(0);
+    }
+
+
+    /* ToDo: All tests need to be revised as it should insert data in QLDB and retrieve data as well */
+    @Test
+    public void testFindByOwnerId() {
+        List<Revenue> ownerRevenues = revenues; // Assuming all revenues in the JSON have the same ownerId for this example
+
+        when(revenueRepository.findByOwnerId(revenues.get(0).getOwnerId())).thenReturn(ownerRevenues);
+
+        List<Revenue> foundRevenues = revenueService.getAllRevenuesByOwnerId(revenues.get(0).getOwnerId());
+        assertEquals(ownerRevenues.size(), foundRevenues.size());
+        assertEquals(ownerRevenues, foundRevenues);
     }
 
 }
