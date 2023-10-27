@@ -1,11 +1,14 @@
 package org.zew.donations.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.zew.donations.converter.EntityConverter;
 import org.zew.donations.model.Wallet;
 import org.zew.donations.model.response.EntityResponse;
 import org.zew.donations.service.WalletService;
+
+import java.util.NoSuchElementException;
 
 import javax.validation.Valid;
 
@@ -21,9 +24,17 @@ public class WalletController {
         return EntityConverter.fromEntityToResponse(walletService.create(wallet));
     }
 
+    @ResponseStatus(value=HttpStatus.CONFLICT, reason="Wallet Already Exists")
+    @ExceptionHandler(RuntimeException.class)
+    public void walletAlreadyExists() {}
+
     @GetMapping("/{id}")
     public Wallet getById(@PathVariable String id) {
         return walletService.findById(id);
     }
+
+    @ResponseStatus(value=HttpStatus.NOT_FOUND, reason="Wallet Not Found")
+    @ExceptionHandler(NoSuchElementException.class)
+    public void walletNotFound() {}
 
 }
