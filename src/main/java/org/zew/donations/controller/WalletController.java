@@ -4,8 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.zew.donations.converter.EntityConverter;
+import org.zew.donations.converter.WalletConverter;
 import org.zew.donations.model.Wallet;
 import org.zew.donations.model.response.EntityResponse;
+import org.zew.donations.model.response.WalletResponse;
 import org.zew.donations.service.WalletService;
 
 import java.util.NoSuchElementException;
@@ -29,8 +31,8 @@ public class WalletController {
     public void walletAlreadyExists() {}
 
     @GetMapping("/{id}")
-    public Wallet getById(@PathVariable String id) {
-        return walletService.findById(id);
+    public WalletResponse getById(@PathVariable String id) {
+        return WalletConverter.fromWalletToResponse(walletService.findById(id));
     }
 
     @ResponseStatus(value=HttpStatus.NOT_FOUND, reason="Wallet Not Found")

@@ -11,7 +11,7 @@ import org.zew.donations.model.WalletType;
 
 public class LocalWalletRepositoryImpl implements WalletRepository {
 
-  private Map<String, Wallet> wallets = new HashMap<String, Wallet>();
+  private Map<String, Wallet> wallets = new HashMap<>();
 
   public void reset() {
     wallets.clear();
