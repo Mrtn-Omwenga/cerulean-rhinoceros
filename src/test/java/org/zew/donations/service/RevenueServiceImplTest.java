@@ -102,18 +102,7 @@ public class RevenueServiceImplTest {
         verifyNoMoreInteractions(revenueRepository);
         assertEquals("Revenue already exists", thrown.getMessage());
     }
-    /*
-    private Revenue createRevenue() throws StreamReadException, DatabindException, IOException {
-        // You can fill in the details for creating a Revenue object here.
-        //return new Revenue();
-        ObjectMapper objectMapper = new ObjectMapper();
-        
-        InputStream inputStream = getClass().getResourceAsStream("/revenues.json");
-        String json = new String(inputStream.readAllBytes(), StandardCharsets.UTF_8);
-        System.out.println(json);
-        List<Revenue> revenues = objectMapper.readValue(inputStream, new TypeReference<List<Revenue>>() {});
-        return revenues.get(0);
-    }*/
+
     private Revenue createRevenue() throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
         InputStream inputStream = getClass().getResourceAsStream("/revenues.json");
@@ -122,5 +111,4 @@ public class RevenueServiceImplTest {
         return revenues.get(0);
     }
 
-    
 }
