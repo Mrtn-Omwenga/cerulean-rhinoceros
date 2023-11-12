@@ -6,7 +6,7 @@ import java.lang.reflect.Field;
 import java.util.UUID;
 import java.util.stream.Stream;
 
-public class EntityIdHelper {
+public class EntityHelper {
 
     public static void setIdValue(Object entity, Class<? extends Entity> clazz) throws IllegalAccessException {
         var idField = getIdField(clazz);

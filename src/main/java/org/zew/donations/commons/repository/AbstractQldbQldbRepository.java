@@ -4,6 +4,7 @@ import com.amazon.ion.IonInt;
 import com.amazon.ion.IonStruct;
 import com.amazon.ion.IonValue;
 import com.fasterxml.jackson.dataformat.ion.IonObjectMapper;
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
 import software.amazon.qldb.QldbDriver;
@@ -30,7 +31,7 @@ public abstract class AbstractQldbQldbRepository<E extends Entity> implements Ql
     private IonObjectMapper ionObjectMapper;
 
     public Optional<E> findById(String id) {
-        return query("SELECT * FROM " + tableName + " WHERE " + EntityIdHelper.getIdField(clazz).getName() + " = ?", id).stream().findFirst();
+        return query("SELECT * FROM " + tableName + " WHERE " + EntityHelper.getIdField(clazz).getName() + " = ?", id).stream().findFirst();
     }
 
     public List<E> findAll() {
@@ -40,7 +41,14 @@ public abstract class AbstractQldbQldbRepository<E extends Entity> implements Ql
     public E save(E entity) {
         return qldbDriver.execute(txn -> {
             try {
-                EntityIdHelper.setIdValue(entity, clazz);
+                if (ObjectUtils.isNotEmpty(entity.getId())) {
+                    var query = "UPDATE " + tableName + " as e SET e = ? WHERE " + EntityHelper.getIdField(clazz).getName() + " = ?";
+                    var bodyParams = ionObjectMapper.writeValueAsIonValue(entity);
+                    var idParam = ionObjectMapper.writeValueAsIonValue(entity.getId());
+                    txn.execute(query, bodyParams, idParam);
+                    return entity;
+                }
+                EntityHelper.setIdValue(entity, clazz);
                 txn.execute("INSERT INTO " + tableName + " ?", ionObjectMapper.writeValueAsIonValue(entity));
                 return entity;
             } catch (IOException | IllegalAccessException e) {

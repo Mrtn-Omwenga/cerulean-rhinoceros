@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import org.zew.donations.converter.EntityConverter;
 import org.zew.donations.converter.WalletConverter;
 import org.zew.donations.model.Wallet;
+import org.zew.donations.model.request.WalletUpdateRequest;
 import org.zew.donations.model.response.EntityResponse;
 import org.zew.donations.model.response.WalletResponse;
 import org.zew.donations.service.WalletService;
@@ -33,6 +34,11 @@ public class WalletController {
     @GetMapping("/{id}")
     public WalletResponse getById(@PathVariable String id) {
         return WalletConverter.fromWalletToResponse(walletService.findById(id));
+    }
+
+    @PutMapping("/{id}")
+    public EntityResponse updateAmounts(@PathVariable String id, @RequestBody @Valid WalletUpdateRequest request) {
+        return EntityConverter.fromEntityToResponse(walletService.updateAmounts(id, request));
     }
 
     @ResponseStatus(value=HttpStatus.NOT_FOUND, reason="Wallet Not Found")

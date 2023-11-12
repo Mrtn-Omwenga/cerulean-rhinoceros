@@ -1,0 +1,30 @@
+[
+    {
+        "ownerId": "u102john2021",
+        "crmOwnerId": "CRM111111john2021",
+        "toWalletId":"203cq7e52058a1df89009130",
+        "amount":"4.95",
+        "currency": "EUR",
+        "sourceType":"PAYPAL_EMAIL",
+        "transactionId":"tran010101010101",
+        "timestamp":"2023-10-11T19:31:31.000+00:00",
+        "invoiceId":"",
+        "originalAmount":"6",
+        "originalCurrency":"USD",
+        "currencyConversion":"1.21120"
+    },
+    {
+        "ownerId": "u102john2021",
+        "crmOwnerId": "CRM111111john2021",
+        "toWalletId":"103cq7e52058a1df89009131",
+        "amount":"39.63",
+        "currency": "EUR",
+        "sourceType":"PAYPAL_EMAIL",
+        "transactionId":"tran010101010101",
+        "timestamp":"2021-06-11T19:31:31.000+00:00",
+        "invoiceId":"",
+        "originalAmount":"48",
+        "originalCurrency":"USD",
+        "currencyConversion":"1.21120"
+    }
+]

@@ -1,9 +1,7 @@
 package org.zew.donations.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import lombok.experimental.Accessors;
 import org.zew.donations.commons.repository.Entity;
 import org.zew.donations.commons.repository.Id;
 
@@ -13,6 +11,8 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @Builder
 @Getter
+@Setter
+@Accessors(chain = true)
 public class Wallet implements Entity {
     @Id
     private String walletId;
