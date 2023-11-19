@@ -11,8 +11,6 @@ import org.zew.donations.model.response.EntityResponse;
 import org.zew.donations.model.response.WalletResponse;
 import org.zew.donations.service.WalletService;
 
-import java.util.NoSuchElementException;
-
 import javax.validation.Valid;
 
 @RestController
@@ -24,25 +22,35 @@ public class WalletController {
 
     @PostMapping
     public EntityResponse create(@RequestBody @Valid Wallet wallet) {
-        return EntityConverter.fromEntityToResponse(walletService.create(wallet));
+        try {
+            return EntityConverter.fromEntityToResponse(walletService.create(wallet));
+        } catch (RuntimeException e) {
+            throw new WalletAlreadyExistsException();
+        }
     }
 
     @ResponseStatus(value=HttpStatus.CONFLICT, reason="Wallet Already Exists")
-    @ExceptionHandler(RuntimeException.class)
-    public void walletAlreadyExists() {}
+    public class WalletAlreadyExistsException extends RuntimeException {}
 
     @GetMapping("/{id}")
     public WalletResponse getById(@PathVariable String id) {
-        return WalletConverter.fromWalletToResponse(walletService.findById(id));
+        try {
+            return WalletConverter.fromWalletToResponse(walletService.findById(id));
+        } catch (RuntimeException e) {
+            throw new WalletNotFoundException();
+        }
     }
 
     @PutMapping("/{id}")
     public EntityResponse updateAmounts(@PathVariable String id, @RequestBody @Valid WalletUpdateRequest request) {
-        return EntityConverter.fromEntityToResponse(walletService.updateAmounts(id, request));
+        try {
+            return EntityConverter.fromEntityToResponse(walletService.updateAmounts(id, request));
+        } catch (RuntimeException e) {
+            throw new WalletNotFoundException();
+        }
     }
 
     @ResponseStatus(value=HttpStatus.NOT_FOUND, reason="Wallet Not Found")
-    @ExceptionHandler(NoSuchElementException.class)
-    public void walletNotFound() {}
+    public class WalletNotFoundException extends RuntimeException {}
 
 }
