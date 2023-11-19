@@ -26,7 +26,7 @@ public class LocalRevenuesRepositoryImpl implements RevenuesRepository {
 
   @Override
   public List<Revenue> findAll() {
-    return new ArrayList<Revenue>(revenues.values());
+    return new ArrayList<>(revenues.values());
   }
 
   @Override

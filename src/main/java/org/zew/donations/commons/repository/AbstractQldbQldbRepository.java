@@ -60,8 +60,8 @@ public abstract class AbstractQldbQldbRepository<E extends Entity> implements Ql
     public void update(E entity) {
         qldbDriver.execute(txn -> {
             try {
-                EntityIdHelper.setIdValue(entity, clazz);
-                txn.execute("UPDATE " + tableName + " AS e SET e = ? WHERE " + EntityIdHelper.getIdField(clazz).getName() + " = " + entity.getId(), 
+                EntityHelper.setIdValue(entity, clazz);
+                txn.execute("UPDATE " + tableName + " AS e SET e = ? WHERE " + EntityHelper.getIdField(clazz).getName() + " = " + entity.getId(), 
                             ionObjectMapper.writeValueAsIonValue(entity));
                 return entity;
             } catch (IOException | IllegalAccessException e) {

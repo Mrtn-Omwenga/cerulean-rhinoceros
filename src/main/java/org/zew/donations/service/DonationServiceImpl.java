@@ -1,6 +1,11 @@
 package org.zew.donations.service;
 
 import java.math.BigDecimal;
+import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,7 +27,13 @@ public class DonationServiceImpl implements DonationService {
 
     @Override
     public void saveDonation(DonationDto donationDto) {
-
+        DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSX");
+        Date date;
+        try {
+            date = formatter.parse(donationDto.getTransactionTimestamp());
+        } catch (ParseException e) {
+            throw new RuntimeException(e.getMessage());
+        }
         Wallet overheadsWallet = walletService.findByOwnerIdAndType(donationDto.getOwnerId(), WalletType.IN_Overheads);
         Revenue overheadsRevenue = Revenue
                 .builder()
@@ -31,12 +42,11 @@ public class DonationServiceImpl implements DonationService {
                 .toWalletId(overheadsWallet.getId())
                 .amount(donationDto.getDistribution().getOverheads().getAmount())
                 .currency(donationDto.getCurrency())
-                .source(donationDto.getSource())
                 .transactionId(donationDto.getTransactionId())
-                .timestamp(donationDto.getTransactionTimestamp())
+                .timestamp(new Timestamp(date.getTime()))
                 .originalAmount(new BigDecimal(donationDto.getOriginalAmount()))
                 .originalCurrency(donationDto.getOriginalCurrency())
-                .currencyConversion(donationDto.getCurrencyConversion())
+                .currencyConversion("" + donationDto.getCurrencyConversion())
                 .build();
         revenuesRepository.save(overheadsRevenue);
         overheadsWallet.setAvailableAmount(overheadsWallet.getAvailableAmount().add(donationDto.getDistribution().getOverheads().getAmount()));
@@ -50,22 +60,23 @@ public class DonationServiceImpl implements DonationService {
                 .toWalletId(overheadsWallet.getId())
                 .amount(donationDto.getDistribution().getDevelopment().getAmount())
                 .currency(donationDto.getCurrency())
-                .source(donationDto.getSource())
                 .transactionId(donationDto.getTransactionId())
-                .timestamp(donationDto.getTransactionTimestamp())
+                .timestamp(new Timestamp(date.getTime()))
                 .originalAmount(new BigDecimal(donationDto.getOriginalAmount()))
                 .originalCurrency(donationDto.getOriginalCurrency())
-                .currencyConversion(donationDto.getCurrencyConversion())
+                .currencyConversion("" + donationDto.getCurrencyConversion())
                 .build();
         revenuesRepository.save(developmentRevenue);
         developmentWallet.setAvailableAmount(developmentWallet.getAvailableAmount().add(donationDto.getDistribution().getDevelopment().getAmount()));
         walletService.update(developmentWallet);
 
         Wallet missionWallet = walletService.findByOwnerIdAndType(donationDto.getOwnerId(), WalletType.IN_Mission);
-        BigDecimal missionsAmount = new BigDecimal(0);
-        for (Mission mission : donationDto.getDistribution().getMissions()) {
-            missionsAmount = missionsAmount.add(mission.getAmount());
-        }
+        BigDecimal missionsAmount = donationDto
+			.getDistribution()
+			.getMissions()
+			.stream()
+			.map(Mission::getAmount)
+			.reduce(BigDecimal.ZERO, BigDecimal::add);
         Revenue missionRevenue = Revenue
                 .builder()
                 .ownerId(donationDto.getOwnerId())
@@ -73,12 +84,11 @@ public class DonationServiceImpl implements DonationService {
                 .toWalletId(overheadsWallet.getId())
                 .amount(missionsAmount)
                 .currency(donationDto.getCurrency())
-                .source(donationDto.getSource())
                 .transactionId(donationDto.getTransactionId())
-                .timestamp(donationDto.getTransactionTimestamp())
+                .timestamp(new Timestamp(date.getTime()))
                 .originalAmount(new BigDecimal(donationDto.getOriginalAmount()))
                 .originalCurrency(donationDto.getOriginalCurrency())
-                .currencyConversion(donationDto.getCurrencyConversion())
+                .currencyConversion("" + donationDto.getCurrencyConversion())
                 .build();
         revenuesRepository.save(missionRevenue);
         missionWallet.setAvailableAmount(missionWallet.getAvailableAmount().add(missionsAmount));

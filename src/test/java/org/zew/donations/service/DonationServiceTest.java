@@ -63,39 +63,45 @@ public class DonationServiceTest {
 
   @Test
   public void testSaveDonation() throws Exception {
-    walletRepository.save(new Wallet(
-        "wallet0",
-        "u102john2021",
-        "CRM111111john2021",
-        OwnerType.IND,
-        "",
-        WalletType.IN_Development,
-        new BigDecimal(0.00),
-        new BigDecimal(0.00),
-        "EUR"
-    ));
-    walletRepository.save(new Wallet(
-        "wallet1",
-        "u102john2021",
-        "CRM111111john2021",
-        OwnerType.IND,
-        "",
-        WalletType.IN_Overheads,
-        new BigDecimal(0.00),
-        new BigDecimal(0.00),
-        "EUR"
-    ));
-    walletRepository.save(new Wallet(
-        "wallet2",
-        "u102john2021",
-        "CRM111111john2021",
-        OwnerType.IND,
-        "",
-        WalletType.IN_Mission,
-        new BigDecimal(0.00),
-        new BigDecimal(0.00),
-        "EUR"
-    ));
+    walletRepository.save(
+        Wallet.builder()
+              .walletId("wallet0")
+              .ownerId("u102john2021")
+              .crmOwnerId("CRM111111john2021")
+              .ownerType(OwnerType.IND)
+              .missionId("")
+              .walletType(WalletType.IN_Development)
+              .availableAmount(new BigDecimal(0.00))
+              .totalAmount(new BigDecimal(0.00))
+              .currency("EUR")
+              .build()
+    );
+    walletRepository.save(
+        Wallet.builder()
+              .walletId("wallet1")
+              .ownerId("u102john2021")
+              .crmOwnerId("CRM111111john2021")
+              .ownerType(OwnerType.IND)
+              .missionId("")
+              .walletType(WalletType.IN_Overheads)
+              .availableAmount(new BigDecimal(0.00))
+              .totalAmount(new BigDecimal(0.00))
+              .currency("EUR")
+              .build()
+    );
+    walletRepository.save(
+        Wallet.builder()
+              .walletId("wallet2")
+              .ownerId("u102john2021")
+              .crmOwnerId("CRM111111john2021")
+              .ownerType(OwnerType.IND)
+              .missionId("")
+              .walletType(WalletType.IN_Mission)
+              .availableAmount(new BigDecimal(0.00))
+              .totalAmount(new BigDecimal(0.00))
+              .currency("EUR")
+              .build()
+    );
     DonationDto donation = DonationDto
       .builder()
       .transactionTimestamp("2021-06-11T19:31:25.734-03:00")
