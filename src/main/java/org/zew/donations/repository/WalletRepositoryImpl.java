@@ -16,7 +16,10 @@ public class WalletRepositoryImpl extends AbstractQldbQldbRepository<Wallet> imp
 
     @Override
     public Wallet getByOwnerIdAndType(String ownerId, WalletType walletType) {
-        return query(Pair.of("ownerId", ownerId), Pair.of("walletType", walletType)).get(0);
+        if (existsByOwnerIdAndType(ownerId, walletType)) {
+            return query(Pair.of("ownerId", ownerId), Pair.of("walletType", walletType)).get(0);
+        }
+        return null;
     }
 
 }

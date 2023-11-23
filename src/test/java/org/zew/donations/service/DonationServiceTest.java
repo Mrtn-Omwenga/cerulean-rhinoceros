@@ -6,7 +6,6 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.List;
 
-import org.assertj.core.util.Arrays;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -132,5 +131,38 @@ public class DonationServiceTest {
     assertTrue(walletRepository.findById("wallet1").get().getAvailableAmount().compareTo(new BigDecimal(9.5)) == 0);
     assertTrue(walletRepository.findById("wallet2").get().getAvailableAmount().setScale(5, RoundingMode.HALF_UP).compareTo(
                                                            new BigDecimal(90.768).setScale(5, RoundingMode.HALF_UP)) == 0);
+  }
+
+  @Test
+  public void testSaveDonationCreatesWallets() throws Exception {
+    DonationDto donation = DonationDto
+      .builder()
+      .transactionTimestamp("2021-06-11T19:31:25.734-03:00")
+      .transactionId("7MB27930VA981832YK2PHN7Q")
+      .ownerId("u102john2021")
+      .crmOwnerId("CRM111111john2021")
+      .source("PAYME_visa")
+      .totalAmount(120.168)
+      .currency("EUR")
+      .originalAmount(100.14)
+      .originalCurrency("EUR")
+      .currencyConversion(1.2)
+      .distribution(
+          Distribution.builder()
+                      .development(new Amount(new BigDecimal(9.8), "EUR"))
+                      .overheads(new Amount(new BigDecimal(9.5), "EUR"))
+                      .fees(new Amount(new BigDecimal(1.02), "EUR"))
+                      .missions(List.of(
+                          new Mission("M001", new BigDecimal(89.748), "EUR"),
+                          new Mission("M002",new BigDecimal(1.02), "EUR")
+                      ))
+                      .build()
+      )
+      .build();
+    donationService.saveDonation(donation);
+
+    assertTrue(walletRepository.existsByOwnerIdAndType("u102john2021", WalletType.IN_Overheads));
+    assertTrue(walletRepository.existsByOwnerIdAndType("u102john2021", WalletType.IN_Development));
+    assertTrue(walletRepository.existsByOwnerIdAndType("u102john2021", WalletType.IN_Mission));
   }
 }

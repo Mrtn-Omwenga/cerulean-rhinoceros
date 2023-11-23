@@ -35,6 +35,18 @@ public class DonationServiceImpl implements DonationService {
             throw new RuntimeException(e.getMessage());
         }
         Wallet overheadsWallet = walletService.findByOwnerIdAndType(donationDto.getOwnerId(), WalletType.IN_Overheads);
+        if (overheadsWallet == null) {
+            overheadsWallet = Wallet
+                                .builder()
+                                .ownerId(donationDto.getOwnerId())
+                                .crmOwnerId(donationDto.getCrmOwnerId())
+                                .walletType(WalletType.IN_Overheads)
+                                .availableAmount(new BigDecimal(0))
+                                .totalAmount(new BigDecimal(0))
+                                .currency(donationDto.getCurrency())
+                                .build();
+            walletService.create(overheadsWallet);
+        }
         Revenue overheadsRevenue = Revenue
                 .builder()
                 .ownerId(donationDto.getOwnerId())
@@ -53,6 +65,18 @@ public class DonationServiceImpl implements DonationService {
         walletService.update(overheadsWallet);
 
         Wallet developmentWallet = walletService.findByOwnerIdAndType(donationDto.getOwnerId(), WalletType.IN_Development);
+        if (developmentWallet == null) {
+            developmentWallet = Wallet
+                                .builder()
+                                .ownerId(donationDto.getOwnerId())
+                                .crmOwnerId(donationDto.getCrmOwnerId())
+                                .walletType(WalletType.IN_Development)
+                                .availableAmount(new BigDecimal(0))
+                                .totalAmount(new BigDecimal(0))
+                                .currency(donationDto.getCurrency())
+                                .build();
+            walletService.create(developmentWallet);
+        }
         Revenue developmentRevenue = Revenue
                 .builder()
                 .ownerId(donationDto.getOwnerId())
@@ -71,6 +95,18 @@ public class DonationServiceImpl implements DonationService {
         walletService.update(developmentWallet);
 
         Wallet missionWallet = walletService.findByOwnerIdAndType(donationDto.getOwnerId(), WalletType.IN_Mission);
+        if (missionWallet == null) {
+            missionWallet = Wallet
+                                .builder()
+                                .ownerId(donationDto.getOwnerId())
+                                .crmOwnerId(donationDto.getCrmOwnerId())
+                                .walletType(WalletType.IN_Mission)
+                                .availableAmount(new BigDecimal(0))
+                                .totalAmount(new BigDecimal(0))
+                                .currency(donationDto.getCurrency())
+                                .build();
+            walletService.create(missionWallet);
+        }
         BigDecimal missionsAmount = donationDto
 			.getDistribution()
 			.getMissions()
