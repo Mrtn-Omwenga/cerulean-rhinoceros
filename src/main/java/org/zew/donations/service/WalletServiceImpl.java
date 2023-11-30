@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.zew.donations.model.Operation;
 import org.zew.donations.model.Wallet;
 import org.zew.donations.model.request.WalletUpdateRequest;
+import org.zew.donations.model.WalletType;
 import org.zew.donations.repository.WalletRepository;
 
 import java.math.BigDecimal;
@@ -45,4 +46,16 @@ public class WalletServiceImpl implements WalletService {
         return func.apply(walletAmount, defaultIfNull(updateRequestAmount, BigDecimal.ZERO));
     }
 
+    @Override
+    public Wallet findByOwnerIdAndType(String ownerId, WalletType walletType) {
+        return walletRepository.getByOwnerIdAndType(ownerId, walletType);
+    }
+
+    @Override
+    public void update(Wallet wallet) {
+        if (!walletRepository.existsByOwnerIdAndType(wallet.getOwnerId(), wallet.getWalletType())) {
+            throw new RuntimeException("Wallet does not exist");
+        }
+        walletRepository.save(wallet);
+    }
 }

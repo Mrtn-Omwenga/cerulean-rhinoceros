@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.zew.donations.model.Amount;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @NoArgsConstructor
@@ -27,6 +28,7 @@ public class DonationDto {
 
     @NoArgsConstructor
     @AllArgsConstructor
+    @Builder
     @Getter
     public static class Distribution {
         private Amount overheads;
@@ -38,7 +40,9 @@ public class DonationDto {
     @NoArgsConstructor
     @AllArgsConstructor
     @Getter
-    public static class Mission extends Amount {
+    public static class Mission {
         private String missionId;
+        private BigDecimal amount;
+        private String currency;
     }
 }

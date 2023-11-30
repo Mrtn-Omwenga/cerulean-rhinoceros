@@ -2,6 +2,7 @@ package org.zew.donations.model;
 
 import lombok.*;
 import lombok.experimental.Accessors;
+
 import org.zew.donations.commons.repository.Entity;
 import org.zew.donations.commons.repository.Id;
 

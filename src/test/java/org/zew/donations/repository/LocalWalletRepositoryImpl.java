@@ -28,6 +28,16 @@ public class LocalWalletRepositoryImpl implements WalletRepository {
   }
 
   @Override
+  public Wallet getByOwnerIdAndType(String ownerId, WalletType walletType) {
+    for (Wallet wallet : wallets.values()) {
+      if (wallet.getOwnerId().equals(ownerId) && wallet.getWalletType() == walletType) {
+        return wallet;
+      }
+    }
+    return null;
+  }
+
+  @Override
   public Optional<Wallet> findById(String id) {
     if (wallets.containsKey(id)) {
       return Optional.of(wallets.get(id));
@@ -42,6 +52,9 @@ public class LocalWalletRepositoryImpl implements WalletRepository {
 
   @Override
   public Wallet save(Wallet entity) {
+    if (entity.getId() == null || entity.getId().isEmpty()) {
+      entity.setWalletId("" + wallets.size());
+    }
     wallets.put(entity.getId(), entity);
     return entity;
   }
