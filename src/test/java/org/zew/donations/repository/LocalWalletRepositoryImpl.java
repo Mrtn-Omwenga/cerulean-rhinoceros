@@ -52,7 +52,9 @@ public class LocalWalletRepositoryImpl implements WalletRepository {
 
   @Override
   public Wallet save(Wallet entity) {
-    entity.setWalletId("" + wallets.size());
+    if (entity.getId() == null || entity.getId().isEmpty()) {
+      entity.setWalletId("" + wallets.size());
+    }
     wallets.put(entity.getId(), entity);
     return entity;
   }
