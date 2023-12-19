@@ -32,10 +32,9 @@ on:
       - main
 
 env:
-  AWS_REGION: eu-central-1                   # set this to your preferred AWS region, e.g. us-west-1
-  ECR_REPOSITORY: zew-donations            # set this to your Amazon ECR repository name
+  ECR_REPOSITORY: "$(basename ${GITHUB_REPOSITORY})"
   ECS_SERVICE: zew-donations                # set this to your Amazon ECS service name
-  ECS_CLUSTER: ZewBackendInfraStack-ZEWBackendInfra3F093DF3-jAanDXsSXqQZ   # set this to your Amazon ECS cluster name
+  ECS_CLUSTER: ${{ vars.ECS_CLUSTER }}
   ECS_TASK_DEFINITION: .aws/task-definition.json # set this to the path to your Amazon ECS task definition
                                                  # file, e.g. .aws/task-definition.json
   CONTAINER_NAME: web                        # set this to the name of the container in the
@@ -49,14 +48,13 @@ jobs:
 
     steps:
     - name: Checkout
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
 
     - name: Configure AWS credentials
-      uses: aws-actions/configure-aws-credentials@v1
+      uses: aws-actions/configure-aws-credentials@v4
       with:
-        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws-region: ${{ env.AWS_REGION }}
+        role-to-assume: ${{ vars.AWS_ROLE_ARN }}
+        aws-region: ${{ vars.AWS_REGION }}
 
     - name: Login to Amazon ECR
       id: login-ecr
