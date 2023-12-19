@@ -37,7 +37,8 @@ permissions:
   packages: write
 
 env:
-  ECR_REPOSITORY: "$(basename ${GITHUB_REPOSITORY})"
+  #ECR_REPOSITORY: "$(basename ${GITHUB_REPOSITORY})"
+  ECR_REPOSITORY: zew-donations
   ECS_SERVICE: zew-donations                # set this to your Amazon ECS service name
   ECS_CLUSTER: ${{ vars.ECS_CLUSTER }}
   ECS_TASK_DEFINITION: .aws/task-definition.json # set this to the path to your Amazon ECS task definition
