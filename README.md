@@ -4,7 +4,6 @@
 
 This details steps for configuring GitHub actions to automatically deploy application changes to ECS Faragte on AWS for commits.
 
-
 ## Pre-requisites
 
 1. The donations service must be deployed to AWS. Refer to `zew-infra/donations_service_stack` for instructions to do this. You will not be able to create a workflow directly in a non-main branch due to a GitHub [gap](https://github.community/t/workflow-files-only-picked-up-from-master/16129/42). Create a dummy workflow in main directly. Once this is done, you can create the actual workflow in other branches.
