@@ -9,6 +9,7 @@ import org.zew.donations.model.WalletType;
 import org.zew.donations.repository.WalletRepository;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.function.BiFunction;
 
 import static org.apache.commons.lang3.ObjectUtils.defaultIfNull;
@@ -57,5 +58,10 @@ public class WalletServiceImpl implements WalletService {
             throw new RuntimeException("Wallet does not exist");
         }
         walletRepository.save(wallet);
+    }
+
+    @Override
+    public int getCountByMissionIdGroupByOwnerId(String missionId) {
+        return walletRepository.getCountByMissionIdGroupByOwnerId(missionId);
     }
 }

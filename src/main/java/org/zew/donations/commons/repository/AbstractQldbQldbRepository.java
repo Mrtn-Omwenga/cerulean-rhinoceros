@@ -74,6 +74,14 @@ public abstract class AbstractQldbQldbRepository<E extends Entity> implements Ql
     }
 
     @SafeVarargs
+    protected final int queryCount(String query, Pair<String, Object>... args) {
+        return qldbDriver.execute(txn -> {
+            var result = txn.execute(query, getParameters(args));
+            return ((IonInt) ((IonStruct) result.iterator().next()).get("_1")).intValue();
+        });
+    }
+
+    @SafeVarargs
     protected final boolean exists(Pair<String, Object>... args) {
         var query = "SELECT COUNT(*) FROM " + tableName + " WHERE ";
         return qldbDriver.execute(txn -> {

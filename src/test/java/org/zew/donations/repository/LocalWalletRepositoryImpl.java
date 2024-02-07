@@ -58,5 +58,17 @@ public class LocalWalletRepositoryImpl implements WalletRepository {
     wallets.put(entity.getId(), entity);
     return entity;
   }
+
+  @Override
+  public int getCountByMissionIdGroupByOwnerId(String missionId){
+    Map<String, Wallet> walletsByMissionId = new HashMap<>();
+
+    for (Wallet wallet : wallets.values()) {
+      if (wallet.getMissionId().equals(missionId)) {
+        walletsByMissionId.put(wallet.getId(), wallet);
+      }
+    }
+    return walletsByMissionId.size();
+  }
   
 }
