@@ -57,6 +57,20 @@ public class WalletServiceImplTest {
     }
 
     @Test
+    public void getCountByMissionIdGroupByOwnerId_Success() {
+        // Arrange
+        String missionId = "m0001";
+        when(walletRepository.getCountByMissionIdGroupByOwnerId(missionId)).thenReturn(1);
+
+        // Act
+        int donorsCount = walletService.getCountByMissionIdGroupByOwnerId(missionId);
+
+        // Assert
+        verify(walletRepository, times(1)).getCountByMissionIdGroupByOwnerId(missionId);
+        assertEquals(1, donorsCount);
+    }
+
+    @Test
     public void findById_Success() {
         // Arrange
         var id = UUID.randomUUID().toString();
