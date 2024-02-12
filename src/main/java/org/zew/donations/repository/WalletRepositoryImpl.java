@@ -6,8 +6,6 @@ import org.zew.donations.commons.repository.AbstractQldbQldbRepository;
 import org.zew.donations.model.Wallet;
 import org.zew.donations.model.WalletType;
 
-import java.util.List;
-
 @Repository
 public class WalletRepositoryImpl extends AbstractQldbQldbRepository<Wallet> implements WalletRepository {
 

@@ -9,7 +9,6 @@ import org.zew.donations.model.WalletType;
 import org.zew.donations.repository.WalletRepository;
 
 import java.math.BigDecimal;
-import java.util.List;
 import java.util.function.BiFunction;
 
 import static org.apache.commons.lang3.ObjectUtils.defaultIfNull;

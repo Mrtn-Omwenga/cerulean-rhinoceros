@@ -4,8 +4,6 @@ import org.zew.donations.model.Wallet;
 import org.zew.donations.model.request.WalletUpdateRequest;
 import org.zew.donations.model.WalletType;
 
-import java.util.List;
-
 public interface WalletService {
 
     Wallet findById(String id);
