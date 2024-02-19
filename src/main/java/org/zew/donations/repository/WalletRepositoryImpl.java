@@ -22,4 +22,11 @@ public class WalletRepositoryImpl extends AbstractQldbQldbRepository<Wallet> imp
         return null;
     }
 
+    @Override
+    public int getCountByMissionIdGroupByOwnerId(String missionId){
+        return queryCount(
+                "SELECT COUNT(*) FROM " + Wallet.class.getSimpleName().toUpperCase() + " WHERE missionId = " + missionId + "GROUP BY ownerId"
+        );
+    }
+
 }

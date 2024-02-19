@@ -58,4 +58,9 @@ public class WalletServiceImpl implements WalletService {
         }
         walletRepository.save(wallet);
     }
+
+    @Override
+    public int getCountByMissionIdGroupByOwnerId(String missionId) {
+        return walletRepository.getCountByMissionIdGroupByOwnerId(missionId);
+    }
 }

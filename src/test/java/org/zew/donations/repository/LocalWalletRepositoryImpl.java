@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.zew.donations.model.Wallet;
 import org.zew.donations.model.WalletType;
@@ -57,6 +58,14 @@ public class LocalWalletRepositoryImpl implements WalletRepository {
     }
     wallets.put(entity.getId(), entity);
     return entity;
+  }
+
+  @Override
+  public int getCountByMissionIdGroupByOwnerId(String missionId){
+    List<Wallet> walletsByMissionId = wallets.values().stream()
+            .filter(wallet ->  wallet.getMissionId().equals(missionId)).toList();
+
+    return walletsByMissionId.size();
   }
   
 }

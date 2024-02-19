@@ -16,4 +16,5 @@ public interface WalletService {
 
     void update(Wallet wallet);
 
+    int getCountByMissionIdGroupByOwnerId(String missionId);
 }
