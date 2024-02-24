@@ -21,10 +21,7 @@ import org.zew.donations.model.Amount;
 import org.zew.donations.model.OwnerType;
 import org.zew.donations.model.Wallet;
 import org.zew.donations.model.WalletType;
-import org.zew.donations.repository.LocalRevenuesRepositoryImpl;
-import org.zew.donations.repository.LocalWalletRepositoryImpl;
-import org.zew.donations.repository.RevenuesRepository;
-import org.zew.donations.repository.WalletRepository;
+import org.zew.donations.repository.*;
 
 @SpringBootTest
 @Import(DonationServiceTest.Config.class)
@@ -40,7 +37,7 @@ public class DonationServiceTest {
 
     @Bean
     @Primary
-    RevenuesRepository localRevenuesRepositoryImpl() {
+    RevenueRepository localRevenuesRepositoryImpl() {
         return new LocalRevenuesRepositoryImpl();
     }
   }
