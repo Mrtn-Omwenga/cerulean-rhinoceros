@@ -1,7 +1,7 @@
 package org.zew.donations.controller;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.zew.donations.controller.exception.RevenueAlreadyExistsException;
 import org.zew.donations.converter.EntityConverter;
 import org.zew.donations.model.Revenue;
 import org.zew.donations.model.response.EntityResponse;
@@ -36,14 +36,7 @@ public class RevenueController {
     }
 
     @PostMapping
-    public EntityResponse create(@RequestBody @Valid Revenue revenue){
-        try {
-            return EntityConverter.fromEntityToResponse(revenueService.create(revenue));
-        }catch (RuntimeException e) {
-            throw new RevenueAlreadyExistsException();
-        }
+    public EntityResponse create(@RequestBody @Valid Revenue revenue) throws RevenueAlreadyExistsException {
+        return EntityConverter.fromEntityToResponse(revenueService.create(revenue));
     }
-
-    @ResponseStatus(value= HttpStatus.CONFLICT, reason="Wallet Already Exists")
-    public class RevenueAlreadyExistsException extends RuntimeException {}
 }

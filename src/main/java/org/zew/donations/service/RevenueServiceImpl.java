@@ -8,6 +8,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.zew.donations.controller.exception.RevenueAlreadyExistsException;
 import org.zew.donations.model.Revenue;
 import org.zew.donations.model.SourceType;
 import org.zew.donations.repository.RevenueRepository;
@@ -25,9 +26,9 @@ public class RevenueServiceImpl implements RevenueService {
     }
 
     @Override
-    public Revenue create(Revenue revenue) {
+    public Revenue create(Revenue revenue) throws RevenueAlreadyExistsException {
         if (revenueRepository.existsById(revenue.getRevenueId())) {
-            throw new RuntimeException("Revenue already exists");
+            throw new RevenueAlreadyExistsException();
         }
         return revenueRepository.save(revenue);
     }

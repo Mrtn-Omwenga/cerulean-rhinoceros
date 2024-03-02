@@ -37,11 +37,13 @@ public class LocalRevenuesRepositoryImpl implements RevenueRepository {
 
   @Override
   public boolean existsById(String revenueId) {
-    return !revenues.values().stream().filter(revenue -> revenue.getRevenueId().equals(revenueId)).toList().isEmpty();
+    return !revenues.values()
+            .stream().filter(revenue -> revenue.getRevenueId().equals(revenueId)).toList().isEmpty();
   }
 
   @Override
   public List<Revenue> findByOwnerId(String ownerId) {
-   return revenues.values().stream().filter(revenue -> revenue.getOwnerId().equals(ownerId)).toList();
+   return revenues.values()
+           .stream().filter(revenue -> revenue.getOwnerId().equals(ownerId)).toList();
   }
 }
