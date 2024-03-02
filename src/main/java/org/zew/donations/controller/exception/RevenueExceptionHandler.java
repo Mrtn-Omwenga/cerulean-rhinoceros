@@ -13,14 +13,10 @@ public class RevenueExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(RevenueAlreadyExistsException.class)
     public ResponseEntity<Object> handleResourceNotFoundException(RevenueAlreadyExistsException e) {
-        String message = getRevenueAlreadyExistsExceptionMessage();
+        String message = RevenueAlreadyExistsException.errorMessage();
 
         log.warn(message);
 
         return ResponseEntity.status(HttpStatus.CONFLICT).body(message);
-    }
-
-    public static String getRevenueAlreadyExistsExceptionMessage() {
-        return "Revenue Already Exists";
     }
 }
