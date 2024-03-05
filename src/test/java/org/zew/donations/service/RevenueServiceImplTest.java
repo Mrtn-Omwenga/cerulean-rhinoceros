@@ -7,6 +7,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.util.ReflectionTestUtils;
+import org.zew.donations.controller.exception.RevenueAlreadyExistsException;
 import org.zew.donations.model.Revenue;
 import org.zew.donations.repository.RevenueRepository;
 
@@ -19,7 +20,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -87,7 +87,7 @@ public class RevenueServiceImplTest {
     }
 
     @Test
-    public void createRevenue_ValidRevenue_Success() throws StreamReadException, DatabindException, IOException {
+    public void createRevenue_ValidRevenue_Success() throws StreamReadException, DatabindException, IOException, RevenueAlreadyExistsException {
         // Arrange
         var revenue = createRevenue();
 
@@ -106,7 +106,7 @@ public class RevenueServiceImplTest {
         when(revenueRepository.existsById(revenue.getRevenueId())).thenReturn(true);
 
         // Act
-        var thrown = assertThrows(RuntimeException.class, () -> revenueService.create(revenue));
+        var thrown = assertThrows(RevenueAlreadyExistsException.class, () -> revenueService.create(revenue));
 
         // Assert
         verify(revenueRepository, times(1)).existsById(revenue.getRevenueId());

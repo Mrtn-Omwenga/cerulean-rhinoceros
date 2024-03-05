@@ -29,6 +29,8 @@ public class Revenue implements Entity {
     private BigDecimal originalAmount;
     private String originalCurrency;
     private String currencyConversion;
+    private String invoiceReceiptURL;
+    private String missionId;
 
     @Override
     public String getId() {

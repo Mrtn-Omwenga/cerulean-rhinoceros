@@ -14,13 +14,13 @@ import org.zew.donations.dto.DonationDto.Mission;
 import org.zew.donations.model.Revenue;
 import org.zew.donations.model.Wallet;
 import org.zew.donations.model.WalletType;
-import org.zew.donations.repository.RevenuesRepository;
+import org.zew.donations.repository.RevenueRepository;
 
 @Service
 public class DonationServiceImpl implements DonationService {
 
     @Autowired
-    private RevenuesRepository revenuesRepository;
+    private RevenueRepository revenuesRepository;
 
     @Autowired
     private WalletService walletService;

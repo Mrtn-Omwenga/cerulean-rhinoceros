@@ -8,7 +8,7 @@ import java.util.Optional;
 
 import org.zew.donations.model.Revenue;
 
-public class LocalRevenuesRepositoryImpl implements RevenuesRepository {
+public class LocalRevenuesRepositoryImpl implements RevenueRepository {
 
   private Map<String, Revenue> revenues = new HashMap<>();
 
@@ -34,5 +34,16 @@ public class LocalRevenuesRepositoryImpl implements RevenuesRepository {
     revenues.put(entity.getId(), entity);
     return entity;
   }
-  
+
+  @Override
+  public boolean existsById(String revenueId) {
+    return !revenues.values()
+            .stream().filter(revenue -> revenue.getRevenueId().equals(revenueId)).toList().isEmpty();
+  }
+
+  @Override
+  public List<Revenue> findByOwnerId(String ownerId) {
+   return revenues.values()
+           .stream().filter(revenue -> revenue.getOwnerId().equals(ownerId)).toList();
+  }
 }

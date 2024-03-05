@@ -11,7 +11,8 @@
         "invoiceId":"",
         "originalAmount":"6",
         "originalCurrency":"USD",
-        "currencyConversion":"1.21120"
+        "currencyConversion":"1.21120",
+        "invoiceReceiptURL": "http://downloadreceiptpdf.com"
     },
     {
         "ownerId": "u102john2021",
@@ -25,6 +26,7 @@
         "invoiceId":"",
         "originalAmount":"48",
         "originalCurrency":"USD",
-        "currencyConversion":"1.21120"
+        "currencyConversion":"1.21120",
+        "missionId": "1"
     }
 ]
