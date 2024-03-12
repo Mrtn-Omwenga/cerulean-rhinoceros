@@ -16,4 +16,5 @@ public interface RevenueService {
 
     Map<String, Object> getFinancialsByOwnerId(String ownerId, String currency);
 
+    List<Revenue> getAllTotalAmountByOwnerId(String ownerId);
 }

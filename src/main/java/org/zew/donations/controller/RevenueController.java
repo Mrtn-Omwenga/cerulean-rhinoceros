@@ -39,4 +39,9 @@ public class RevenueController {
     public EntityResponse create(@RequestBody @Valid Revenue revenue) throws RevenueAlreadyExistsException {
         return EntityConverter.fromEntityToResponse(revenueService.create(revenue));
     }
+
+    @GetMapping("/ownerId/{ownerId}")
+    public List<Revenue> getTotalAmountByOwnerID(@RequestParam String ownerId) {
+        return revenueService.getAllTotalAmountByOwnerId(ownerId);
+    }
 }

@@ -12,12 +12,16 @@ import org.zew.donations.controller.exception.RevenueAlreadyExistsException;
 import org.zew.donations.model.Revenue;
 import org.zew.donations.model.SourceType;
 import org.zew.donations.repository.RevenueRepository;
+import org.zew.donations.repository.WalletRepository;
 
 @Service
 public class RevenueServiceImpl implements RevenueService {
 
     @Autowired
     private RevenueRepository revenueRepository;
+
+    @Autowired
+    private WalletRepository walletRepository;
 
     @Override
     public Revenue findById(String id) {
@@ -83,6 +87,11 @@ public class RevenueServiceImpl implements RevenueService {
             default:
                 return sourceType.toString();
         }
+    }
+
+    @Override
+    public List<Revenue> getAllTotalAmountByOwnerId(String ownerId) {
+        return  walletRepository.getTotalAmountByOwnerId(ownerId);
     }
 
 }

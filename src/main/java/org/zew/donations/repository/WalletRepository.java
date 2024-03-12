@@ -4,6 +4,8 @@ import org.zew.donations.commons.repository.QldbRepository;
 import org.zew.donations.model.Wallet;
 import org.zew.donations.model.WalletType;
 
+import java.util.List;
+
 
 public interface WalletRepository extends QldbRepository<Wallet> {
 
@@ -12,5 +14,7 @@ public interface WalletRepository extends QldbRepository<Wallet> {
     Wallet getByOwnerIdAndType(String ownerId, WalletType walletType);
 
     int getCountByMissionIdGroupByOwnerId(String missionId);
+
+    List getTotalAmountByOwnerId (String ownerId);
 
 }

@@ -67,5 +67,11 @@ public class LocalWalletRepositoryImpl implements WalletRepository {
 
     return walletsByMissionId.size();
   }
-  
+
+  @Override
+  public List getTotalAmountByOwnerId(String ownerId) {
+    return new ArrayList<Wallet>(wallets.values());
+  }
+
+
 }

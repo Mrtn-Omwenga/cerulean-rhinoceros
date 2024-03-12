@@ -6,6 +6,8 @@ import org.zew.donations.commons.repository.AbstractQldbQldbRepository;
 import org.zew.donations.model.Wallet;
 import org.zew.donations.model.WalletType;
 
+import java.util.List;
+
 @Repository
 public class WalletRepositoryImpl extends AbstractQldbQldbRepository<Wallet> implements WalletRepository {
 
@@ -26,6 +28,13 @@ public class WalletRepositoryImpl extends AbstractQldbQldbRepository<Wallet> imp
     public int getCountByMissionIdGroupByOwnerId(String missionId){
         return queryCount(
                 "SELECT COUNT(*) FROM " + Wallet.class.getSimpleName().toUpperCase() + " WHERE missionId = " + missionId + "GROUP BY ownerId"
+        );
+    }
+
+
+    public List getTotalAmountByOwnerId(String ownerId){
+        return query(
+                "SELECT * FROM" + Wallet.class.getSimpleName().toUpperCase() + " WHERE ownerId = " + ownerId +  " AND walletType = IN_MISSION"
         );
     }
 
