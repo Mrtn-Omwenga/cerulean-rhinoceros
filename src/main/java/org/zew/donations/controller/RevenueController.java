@@ -40,8 +40,9 @@ public class RevenueController {
         return EntityConverter.fromEntityToResponse(revenueService.create(revenue));
     }
 
-    @GetMapping("/ownerId/{ownerId}")
-    public List<Revenue> getTotalAmountByOwnerID(@RequestParam String ownerId) {
-        return revenueService.getAllTotalAmountByOwnerId(ownerId);
+    @GetMapping("/total/{ownerId}")
+    public ResponseEntity<List<Revenue>> getTotalAmountByOwnerID(@RequestParam String ownerId) {
+        List<Revenue> revenues = revenueService.getAllTotalAmountByOwnerId(ownerId);
+        return ResponseEntity.ok(revenues);
     }
 }
